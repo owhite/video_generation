@@ -1,0 +1,27 @@
+#define MOVE_PIN   7 // communicates status of movement to laser computer
+
+boolean blinkOn = false;
+uint32_t blinkDelta = 0;
+uint32_t blinkInterval = 100; 
+uint32_t blinkNow;
+
+uint32_t val = 0;
+
+void setup() {
+  Serial.begin(9600);
+
+  pinMode(MOVE_PIN, OUTPUT); 
+  pinMode(13, OUTPUT); 
+}
+
+void loop() {
+
+  blinkNow = millis();
+  if ((blinkNow - blinkDelta) > blinkInterval) {
+    Serial.print("thing");
+    blinkOn = !blinkOn;
+    digitalWrite(MOVE_PIN, blinkOn);
+    digitalWrite(13, blinkOn);
+    blinkDelta = blinkNow;
+  }
+}

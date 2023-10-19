@@ -1,0 +1,10 @@
+[env:teensy41]
+platform = teensy
+framework = arduino
+board = teensy41
+targets = upload
+
+lib_deps =
+  ; name-based (built-in library in framework)
+  ; https://github.com/PaulStoffregen/SD.git
+ 

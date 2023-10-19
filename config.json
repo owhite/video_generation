@@ -1,0 +1,60 @@
+{
+    "movie_title": "MP2 tutorial",
+    "amp_title": "FW=90, MAX=300A",
+    "FW": 90,
+    "fig_height": 7,
+    "fig_width": 10,
+    "movie_URL": "https://www.youtube.com/watch?v=QXmi6-ig2mM&feature=youtu.be", 
+    "movie_size": "1280x716", 
+    "start_sec": 10.0, 
+    "data_collection_period": 10.0, 
+    "movie_duration": 75.81,
+    "gear_ratio": 9.82,
+    "tire_circumference": 219.5,
+    "pole_pair": 7,
+    "max_vals": 
+	{
+	    "adc1":     4200.0,
+	    "ehz":       740.0,
+	    "error":        20,
+	    "id":          2.0,
+	    "iq":        300.0,
+	    "iqreq":     300.0,
+	    "TMOS":       90.0,
+	    "TMOT":       90.0,
+	    "vbus":       74.0,
+	    "Vd":         10.0,
+	    "Vq":         50.0,
+	    "phaseA":    300.0
+	},
+    "min_vals": 
+	{
+	    "adc1":      740.0,
+	    "ehz":         0.0,
+	    "error":       0.0,
+	    "id":          0.0,
+	    "iq":          0.0,
+	    "iqreq":       0.0,
+	    "TMOS":       25.0,
+	    "TMOT":       25.0,
+	    "vbus":       62.0,
+	    "Vd":          0.0,
+	    "Vq":          0.0,
+	    "phaseA":      0.0
+	},
+    "bar_displays": 
+	{
+	    "adc1":      0,
+	    "ehz":       1,
+	    "error":     0,
+	    "id":        0,
+	    "iq":        0,
+	    "iqreq":     0,
+	    "TMOS":      0,
+	    "TMOT":      0,
+	    "vbus":      0,
+	    "Vd":        0,
+	    "Vq":        0,
+	    "phaseA":    1
+	}
+}

@@ -1,0 +1,167 @@
+#define compSerial Serial // data from computer keyboard to teensy USB
+#define BTSerial  Serial2 // data from ESP32 into teensy UART
+#define MP2Serial Serial3 // data from MP2 into teensy UART
+#define GPSSerial Serial4 // data from MP2 into teensy UART
+
+#define COMP 0
+#define BT   1
+#define MP2  2
+#define GPS  3
+
+// blinking stuff
+boolean blinkOn = true;
+boolean blinkFlag = true;
+uint32_t blinkDelta = 0;
+uint32_t blinkInterval = 200; 
+uint32_t recordInterval = 100; 
+uint32_t blinkNow;
+
+// serial stuff
+bool enterStrCapture = true;
+bool printFlag = false;
+uint32_t start[3];
+bool startTimer[3] = {false, false, false};
+
+#define EXT_BLINK_PIN 2
+
+const uint16_t maxReceiveLength = 400;
+char receivedChars[4][maxReceiveLength] = {'\0', '\0', '\0', '\0'};
+char BTstr[maxReceiveLength] = {};
+int  currentIndex[4] = {0, 0, 0, 0};
+bool lineWasRecvd[4] = {false, false, false, false};
+uint32_t serInterval = 300;  // timeout to receive character from MP2
+
+struct GPS_s{
+  char GPS_valid[2];
+  float GPS_lat;
+  float GPS_long;
+  bool success;
+};
+
+struct GPS_s processGPSString(char *str) {
+  struct GPS_s g;
+
+  g.success = false;
+
+  if (strstr(receivedChars[GPS], "$GPRMC") != NULL) {
+    g.success = true;
+
+    int pos = 0;
+
+    char *r = strdup(str);
+    char *tok = r, *end = r;
+
+    while (tok != NULL) {
+      strsep(&end, ",");
+
+      if (pos == 2) {
+	strncpy(g.GPS_valid, tok, 1);
+	g.GPS_valid[1] = '\0';
+      }
+      if (pos == 3) {
+	g.GPS_lat = atof(tok);
+      }
+      if (pos == 5) {
+	g.GPS_long = atof(tok);
+      }
+
+      tok = end;
+      pos++;
+    }
+    
+    free(r);
+  }
+  return g;
+}
+
+void setup() {
+  compSerial.begin(115200);
+  GPSSerial.begin(9600);
+}
+
+void loop() {
+  // handleMPU();
+  handleBlink();
+
+  if (recvSerialData(GPSSerial, GPS) != 0) {
+    strcpy(receivedChars[GPS], "$GPRMC,005944.000,A,3918.2722,N,07636.7732,W,0.25,0.55,120723,,,A*71");
+
+    struct GPS_s g = processGPSString(receivedChars[GPS]);
+
+    if (g.success) {
+      printf("lat/long %d :: %s :: %lf :: %lf\n", g.success, g.GPS_valid, g.GPS_lat, g.GPS_long);
+    }
+    clrSerialString(GPS);
+  }
+}
+
+uint8_t recvSerialData(Stream &ser, int serNum) {
+  char in_char;
+  bool dataReady;
+
+  while ( ser.available() > 0 ) {
+    start[serNum] = millis(); // used for timeout
+    startTimer[serNum] = true;
+
+    in_char= ser.read();
+    dataReady = addData(in_char, serNum);  
+    if ( dataReady ) {
+      return 1;
+    }
+  }
+
+  // Jens' term creates a prompt with no '/n'. 
+  //  so throw in this timeout.
+  if (strlen(receivedChars[serNum]) != 0 &&
+      millis() - start[serNum] > serInterval &&
+      startTimer[serNum]) {
+    startTimer[serNum] = false;
+    return 2;
+  }
+
+  return 0;
+}
+
+bool addData(char nextChar, int serNum) {  
+  // Ignore these
+  if ((nextChar == '\r') || (nextChar > 255) || (nextChar == 0)) {
+    return false;
+  }
+
+  if (nextChar == '\n') {
+    receivedChars[serNum][currentIndex[serNum]] = '\0';
+    return true;
+  }
+
+  if (currentIndex[serNum] >= maxReceiveLength - 2) {
+    receivedChars[serNum][maxReceiveLength] = '\0';
+  }
+  else {
+    receivedChars[serNum][currentIndex[serNum]] = nextChar;
+    receivedChars[serNum][currentIndex[serNum] + 1] = '\0';
+    currentIndex[serNum]++;
+  }
+
+  return false;
+}
+
+void clrSerialString(int serNum) {
+  currentIndex[serNum] = 0;
+  receivedChars[serNum][0] = '\0';
+}
+
+void handleBlink() {
+  blinkNow = millis();
+  uint32_t t = blinkInterval;
+  if (blinkFlag) {
+    if ((blinkNow - blinkDelta) > t) {
+      digitalWrite(EXT_BLINK_PIN, blinkOn);
+      blinkOn = !blinkOn;
+      blinkDelta = blinkNow;
+    }
+  }
+  else {
+    digitalWrite(EXT_BLINK_PIN, LOW);
+  }
+}
+

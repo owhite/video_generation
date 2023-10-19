@@ -1,0 +1,11 @@
+Logging methods
+https://github.com/owhite/process_mesc
+
+MP2 controller board:
+https://github.com/badgineer/MP2-ESC
+
+MESC firmware:
+https://github.com/davidmolony/MESC_Firmware
+
+Many thanks to @badgineer (MP2), @mxlemming (patience and MESC code),
+@netzpfuscher (MESC terminal), and Rob (thermistor code). 
