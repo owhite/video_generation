@@ -115,7 +115,9 @@ $ ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv
 1280x716
 
 Overlay text
-ffmpeg -i output1.mp4 -vf "drawtext=fontfile=/path/to/font.ttf:text='Stack Overflow':fontcolor=white:fontsize=24:box=1:boxcolor=black@0.5:boxborderw=5:x=(w-text_w)/2:y=(h-text_h)/2:enable='between(t,0,4)', drawtext=fontfile=/path/to/font.ttf:text='THING THING':fontcolor=white:fontsize=24:box=1:boxcolor=black@0.5:boxborderw=5:x=(w-text_w)/2:y=((h-text_h)/2) + 30:enable='between(t,0,4)'" -codec:a copy output2.mp4
+ffmpeg -i scrap1.mp4 -vf "drawtext=fontfile=/path/to/font.ttf:text='Stack Overflow':fontcolor=white:fontsize=24:box=1:boxcolor=black@0.5:boxborderw=5:x=(w-text_w)/2:y=(h-text_h)/2:enable='between(t,0,4)', drawtext=fontfile=/path/to/font.ttf:text='THING THING':fontcolor=white:fontsize=24:box=1:boxcolor=black@0.5:boxborderw=5:x=(w-text_w)/2:y=((h-text_h)/2) + 30:enable='between(t,0,4)'" -codec:a copy scrap2.mp4
+
+ffmpeg -i scrap1.mp4 -vf "drawtext=fontfile=/path/to/font.ttf:text='THING THING':fontcolor=white:fontsize=24:box=1:boxcolor=black@0.5:boxborderw=5:x=(w-text_w)/2:y=((h-text_h)/2) + 30:enable='between(t,1,4)'" -codec:a copy scrap2.mp4
 
 Or, create an image
 
@@ -126,10 +128,114 @@ Fix transparent background
 convert thing.png -fuzz 10% -transparent black thing2.png
 
 And then overlay on video
-ffmpeg -i output1.mp4 -i thing2.png -filter_complex "[0:v][1:v] overlay=0:0 : enable='between(t,0,4)'" -c:a copy output2.mp4
+ffmpeg -i scrap1.mp4 -i thing2.png -filter_complex "[0:v][1:v] overlay=0:0 : enable='between(t,0,4)'" -c:a copy scrap2.mp4
 
 convert -background black -fill yellow -pointsize 28 -gravity west label:"This is line 1 of text\nThis is line 2 of text" -gravity center -extent 400x400 thing.png
 
 Suppose you want to change the position of the overlaid image:
 
-ffmpeg -i output1.mp4 -i thing.png -filter_complex "[0:v][1:v] overlay=100:100 : enable='between(t,0,4)'" -c:a copy output2.mp4
+ffmpeg -i scrap1.mp4 -i thing.png -filter_complex "[0:v][1:v] overlay=100:100 : enable='between(t,0,4)'" -c:a copy scrap2.mp4
+
+--------------------------------------------------
+
+Convert .mov to mp4
+% ffmpeg -i FLASH_MESC_PART1.mov -vcodec h264 -c:a aac output1.mp4
+
+What size is the raw video recording? 
+
+ % ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0 output1.mp4         
+1398x814
+
+These are some comments I want to overlay:
+min:sec sec
+00:57   57  See links in the description
+03:43   223 Actually I meant hit "Open"
+03:53   233 Did I say "Open"? hit "Finish"
+05:05   305 See "Determine your motor parameters" in comments
+08:31   511 Technically this a compile not a flash
+09:14   554 Okay now it is flashing
+
+To do that make this list:
+
+ffmpeg -i output1.mp4 -vf 
+"
+drawtext=fontfile=/path/to/font.ttf:text='See links in the description':fontcolor=yellow:fontsize=36:box=1:boxcolor=black@0.5:boxborderw=5:x=(w-text_w)/2:y=(h-text_h)/2:enable='between(t,56,60)',
+drawtext=fontfile=/path/to/font.ttf:text='Ok actually I meant \"hit Open\"':fontcolor=yellow:fontsize=36:box=1:boxcolor=black@0.5:boxborderw=5:x=(w-text_w)/2:y=((h-text_h)/2) + 30:enable='between(t,223,227)', 
+drawtext=fontfile=/path/to/font.ttf:text='Did I say \"Open\"? hit \"Finish\"':fontcolor=yellow:fontsize=36:box=1:boxcolor=black@0.5:boxborderw=5:x=(w-text_w)/2:y=((h-text_h)/2) + 30:enable='between(t,233,236)', 
+drawtext=fontfile=/path/to/font.ttf:text='See \"Determine your motor parameters\" in comments':fontcolor=yellow:fontsize=36:box=1:boxcolor=black@0.5:boxborderw=5:x=(w-text_w)/2:y=((h-text_h)/2) + 30:enable='between(t,305,309)', 
+drawtext=fontfile=/path/to/font.ttf:text='Technically this a compile not a flash':fontcolor=yellow:fontsize=36:box=1:boxcolor=black@0.5:boxborderw=5:x=(w-text_w)/2:y=((h-text_h)/2) + 30:enable='between(t,511,515)', 
+drawtext=fontfile=/path/to/font.ttf:text='Okay now it is flashing':fontcolor=yellow:fontsize=36:box=1:boxcolor=black@0.5:boxborderw=5:x=(w-text_w)/2:y=((h-text_h)/2) + 30:enable='between(t,554,557)'
+"  
+-codec:a copy output2.mp4
+
+Bunch those together and run this command
+
+% ffmpeg -i output1.mp4 -vf "drawtext=fontfile=/path/to/font.ttf:text='See links in the description':fontcolor=yellow:fontsize=36:box=1:boxcolor=black@0.5:boxborderw=5:x=(w-text_w)/2:y=(h-text_h)/2:enable='between(t,56,60)',drawtext=fontfile=/path/to/font.ttf:text='Ok actually I meant \"hit Open\"':fontcolor=yellow:fontsize=36:box=1:boxcolor=black@0.5:boxborderw=5:x=(w-text_w)/2:y=((h-text_h)/2) + 30:enable='between(t,223,227)', drawtext=fontfile=/path/to/font.ttf:text='Did I say \"Open\"? hit \"Finish\"':fontcolor=yellow:fontsize=36:box=1:boxcolor=black@0.5:boxborderw=5:x=(w-text_w)/2:y=((h-text_h)/2) + 30:enable='between(t,233,236)', drawtext=fontfile=/path/to/font.ttf:text='See \"Determine your motor parameters\" in comments':fontcolor=yellow:fontsize=36:box=1:boxcolor=black@0.5:boxborderw=5:x=(w-text_w)/2:y=((h-text_h)/2) + 30:enable='between(t,305,309)', drawtext=fontfile=/path/to/font.ttf:text='Technically this a compile not a flash':fontcolor=yellow:fontsize=36:box=1:boxcolor=black@0.5:boxborderw=5:x=(w-text_w)/2:y=((h-text_h)/2) + 30:enable='between(t,511,515)', drawtext=fontfile=/path/to/font.ttf:text='Okay now it is flashing':fontcolor=yellow:fontsize=36:box=1:boxcolor=black@0.5:boxborderw=5:x=(w-text_w)/2:y=((h-text_h)/2) + 30:enable='between(t,554,557)'"  -codec:a copy output2.mp4
+
+Now I want to overlay some images:
+
+04:32 PROVIDE LIST OF FILES TO EDIT
+06:00 PROVIDE LIST FOR MP2_V0_1.h
+06:40 PROVIDE PIC OF VOLTAGE DIVIDERS
+07:50 Pic of ST-LINK
+07:58 ST-LINK - USB - COMPUTER
+08:06 ST-LINK PILL
+08:11 ST-LINK PILL CAPTION
+
+create an image
+
+convert -background black -fill yellow -pointsize 28 -gravity west label:"MESC_Common/Inc/MESC_MOTOR_DEFAULTS.h\nMESC_F405RG/Core/Inc/MP2_V0_1.h\nMESC_F405RG/Core/Inc/MESC_F405.h" -gravity center thing.png
+
+what's the size:
+
+ % ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0  thing.png 
+652x97
+So centering is 
+
+(1398 / 2) - (652 / 2) = 699 - 326 = 272
+
+% ffmpeg -i output2.mp4 -i thing.png -filter_complex "[0:v][1:v] overlay=373:100 : enable='between(t,272,279)'" -c:a copy output3.mp4
+
+Let's make another image:
+convert -background black -fill yellow -pointsize 28 -gravity west label:"#define ABS_MAX_PHASE_CURRENT\n#define ABS_MAX_BUS_VOLTAGE\n#define ABS_MIN_BUS_VOLTAGE\n#define MAX_IQ_REQUEST\n#define R_VBUS_BOTTOM\n#define R_VBUS_TOP" -gravity center thing2.png
+
+Size?
+% ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0  thing2.png 
+590x193
+
+to center:
+(1398 / 2) - (590 / 2) = 404, but I'm also going to shift left a bit
+
+Overlay this list:
+% ffmpeg -i output3.mp4 -i thing2.png -filter_complex "[0:v][1:v] overlay=360:100 : enable='between(t,360,368)'" -c:a copy output4.mp4
+
+Overlay circuit diagram:
+% ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0  PICS/circuit_diagram.png 
+1130x396
+
+(1398 / 2) - (1130 / 2) = 134
+
+% ffmpeg -i output4.mp4 -i PICS/circuit_diagram.png -filter_complex "[0:v][1:v] overlay=134:100 : enable='between(t,400,410)'" -c:a copy output5.mp4
+
+Overlay more pictures
+
+07:58 ST-LINK - USB - COMPUTER
+955x595 = CENTER: 222
+
+% ffmpeg -i output5.mp4 -i PICS/STLINK_USB.png -filter_complex "[0:v][1:v] overlay=222:100 : enable='between(t,478,486)'" -c:a copy output6.mp4
+
+08:06 ST-LINK PILL
+993x544 = CENTER: 203
+
+% ffmpeg -i output6.mp4 -i PICS/STLINK_PILL.png -filter_complex "[0:v][1:v] overlay=203:100 : enable='between(t,486,491)'" -c:a copy output7.mp4
+
+08:11 ST-LINK PILL CAPTION
+993x544 = CENTER: 203
+
+% ffmpeg -i output7.mp4 -i PICS/STLINK_PILL_CAPTION.png -filter_complex "[0:v][1:v] overlay=203:100 : enable='between(t,491,494)'" -c:a copy output8.mp4
+
+
+
+
+
+
