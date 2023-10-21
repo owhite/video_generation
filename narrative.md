@@ -1,5 +1,14 @@
-A Consortium Facilitation, Coordination, and Analysis Center for the HVP
-
+#elif defined(TP128)
+#define MAX_MOTOR_PHASE_CURRENT 350.0f //350A seems like a reasonable upper limit for these
+#define DEFAULT_MOTOR_POWER 12000.0f   //Go on, change this to 15000
+#define DEFAULT_FLUX_LINKAGE 0.0167f   //Set this to the motor linkage in wB
+#define DEFAULT_MOTOR_Ld 0.000032f     //Henries
+#define DEFAULT_MOTOR_Lq 0.000046f     //Henries
+#define DEFAULT_MOTOR_R 0.0080f        //Ohms
+#define DEFAULT_MOTOR_PP 5             //Pole Pairs
+// This assumes a 6.5mohm motor
+// 1.5mohm of MOS and cable.
+// With such low resistance, it becomes important
 
 This is a tutorial to flash MESC firmware to a MP2 electronic speed controller
 
@@ -8,10 +17,10 @@ Before I start I'd like to thank my friends who have done most of the work with 
 We are going to break this up into two videos. The first video is a minimal build needed to compile MESC code to run on an MP2. The steps will include:
 
 ## Connecting your MP2 to a ST-LINK device
-+ Loading MESC into the STM32CubeIDE
-+ Configuring the code to work for your motor
-+ Connect your pill
-+ Flashing the code
+Loading MESC into the STM32CubeIDE
+Configuring the code to work for your motor
+Connect your pill
+Flashing the code
 
 The second video will include:
 Starting the STMCube debugger
