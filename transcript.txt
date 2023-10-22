@@ -1,0 +1,228 @@
+this is a tutorial to flash mesque
+firmware to an mp2 electronic speed
+controller
+
+==============================
+
+before I start I'd like to
+thank my friends whove done most of the
+work with developing this firmware and the MP2 ESC
+
+==============================
+we're going to break this up into
+two videos
+
+the first video is a minimal build needed to compile mesc code to run on an mp2
+
+the steps will include
+
+loading mask into stm32 Cube IDE 
+
+configuring the code to work for your motor
+
+connecting the pill and flashing the code to that pill
+
+==============================
+
+the second video will include
+starting the STM Cube debugger
+viewing variables coming from the mp2
+using the mp2 terminal and spinning the motor
+
+==============================
+this video does not cover building an mp2
+
+determining your motor parameters
+
+or a deep discussion on how the mesc firmware operates
+
+that can be found elsewhere
+
+==============================
+this is a partial list of what
+you need you'll need to install the
+stm32 cube IDE
+
+you'll need a physical
+device called an st link V2 which is
+very inexpensive
+
+and you'll need an STM 32 Pill
+
+there are two pills to choose from
+
+* the stm32 f411 black pill and the
+* stm32 f405 open source pill
+a link is given for the open source pill
+
+==============================
+this video is just a guide I avoid step-by-step tutorials because
+over time the mesk code is likely to change
+the STM Cube IDE interface will change
+things vary depending on what operating system you're using
+and the pills can be slightly different one
+
+==============================
+another thing to note before starting 
+when you load the MESC project in to STM CUBE
+it imports everything you need include
+code and the CPU configuration
+don't confuse this with other tutorials that
+usually walk you through the CPU
+configuration that's not needed here
+
+==============================
+also note that there are many ways to
+perform a flash using these different utilities
+
+but for MESC code the easiest way to perform a build is with the STM Cube IDE
+
+flashing is not going to instantly spin your motor
+in fact I recommend disconnecting your pill altogether for
+your first flash
+
+========================================
+to get started with loading MESK let's create a
+local copy of MESK comment
+
+there's a link in my comment section
+that takes you to the GitHub site
+go there and download a zip file
+
+on my computer it downloads and is immediately uncompressed
+
+importing this code into STM Cube project can be frustrating -- the best
+way to do this is to start by creating a totally new workspace
+
+open up the stm32 cube, go to the top level folder and create a new workspace folder
+
+open that and launch STM CUBE
+hopefully STM Cube will show "import project"
+you can use this wizard to import an existing project
+
+find the uncompressed folder hit next, and you should see a lot of mesk
+folders here
+
+if everything is working properly the import projects
+wizard will show you a bunch of different folders with these check marks
+
+now you can see all of the mesk code in the project explorer
+
+hit save here and then we'll move forward
+
+========================================
+now we're going to configure the mes code to run a motor
+this is relatively complicated but keep in mind
+we will keep a separate GitHub Branch
+with the exact code changes that are
+shown here
+and we will include a document
+that you can use as a cheat sheet
+
+the following is a set of files that you
+need to edit for a basic mp2
+configuration
+
+notice that for the first
+file the include directory is in MESK common
+
+the other two files are
+found in mesk f405RG
+
+let's take a look at mesk motor
+defaults in the project
+Explorer
+
+as I mentioned this video will
+not show you how to physically and
+electronically determine your motor
+parameters
+
+there is a a documented tutorial for finding those numbers in the description section of this video
+
+but for now we're going to assume you already know these numbers and just want to plug them in
+
+this is an example code block that you would want to create and fill in for your motor
+it has values for flux linkage motor inductance called lq and LV motor resistance pole pairs phase
+current and
+power
+
+for example I have a new motor called a top power 128 and these are the V variables
+that I'm going to use for that
+motor
+
+now let's look at the mp2 V1
+this file is used by MESC for mp2 boards
+
+note that mesc can work for lots of other ESCs but this is a configuration file
+for an mp2
+
+these are the variables that you need to touch in this file
+
+ABS Max phase current controls the
+amount of amps that can be dumped into each phase of the controller ABS Max
+
+abs max bus voltage && abs Min bus voltage are cut off values
+for the battery voltage coming into the controller
+
+Max IQ request refers to how much the user can crank the throttle and
+request the controller to deliver amps to the motor
+
+set that amount to about half of what you use in ABS Max phase current
+
+vbus bottom and vbus top refer to resistors that are used as voltage
+dividers to measure phase voltage
+
+take a look at this section of the mp2 circuit,
+these resistors may vary between mp2 boards
+in my case because I have 100K and 3.3k  resistor dividers
+so I plug in these these values
+
+one other item with this file -- you need to change this define to the name of the motor that you set up in motor parameters
+
+next let's look look at the mesk_f405
+
+make sure this line is uncommented
+make sure that all the other lines are commented out
+
+there's nothing else to change in this file but let me call attention to these two values
+
+adc1 Min and adc1 Max
+your throttle is probably going to be connected to the adc1 input
+this setsthe lower and upper limits associated with that throttle
+we're going to return to looking at these values in the
+next video
+
+8:04!!!
+now we're going to connect the St link to your computer and the pill
+
+ST LINKS are available from lots of different sources and there are a lot of tutorials for using them to flash a pill
+the idea here is that the STLINK device is connected to your your USB cord the USB cord is connected to your
+computer
+
+then jumper wires go from the STlink over to the pill 
+and they're usually labeled with these
+names once that's connected you can
+Once it is connected you may want restart the stm32
+cube IDE for this to work 
+
+my pill uses an f405 so let's go to this folder
+if I click on one of these files it the IDE will what architecture
+
+hit the build icon, the compilation is running here 
+you can follow the progress it in this
+window
+
+when that finishes we can start to
+flash the pill
+
+remember if you're doing this for the first time do not connect the pill
+to the mp2
+
+to flash select the debug configuration file and then press the
+debug icon it loads and there we
+
+you have flashed your first stm32 pill
+
+in the next tutorial we'll use the debugger to make sure everything is
+working and eventually spin the motor

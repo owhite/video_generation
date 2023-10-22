@@ -4,25 +4,19 @@ import getopt, sys, json
 from pytube import YouTube 
 
 try:
-    opts, args = getopt.getopt(sys.argv[1:],"c:o:",["config=", "output="])
+    opts, args = getopt.getopt(sys.argv[1:],"u:o:",["URL=", "output="])
 except getopt.GetoptError:
-    print ('program.py -c <config> -o <outputfile>')
+    print ('program.py -u youtubeURL -o <outputfile>')
     sys.exit(2)
 
 cname = ""
 oname = ""
 
 for opt, arg in opts:
-    if opt in ("-c", "--config"):
-        cname = arg
+    if opt in ("-u", "--URL"):
+        link = arg
     if opt in ("-o", "--output"):
         oname = arg
-
-with open(cname, 'r') as fcc_file:
-    config = json.load(fcc_file)
-
-link = config['movie_URL']
-
 try:
 
     print(("attempting download of: {} to {}").format(link, oname))
