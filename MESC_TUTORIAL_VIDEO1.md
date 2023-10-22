@@ -11,7 +11,7 @@ $ git clone --branch BLAH_BLAH_BLAH https://github.com/davidmolony/MESC_Firmware
 ```
 
 Advice for loading MESC into STM32CubeIDE:
-+ This is the worst part of using STM32Cube
++ Loading STM32CubeIDE can be really annoying
 + The easiest way is create a whole new workspace
 + Open STM32CubeIDE, when it asks if you want to open a workspace, hit browse
 + Create a new workspace folder, hit open
@@ -27,7 +27,7 @@ If all this gets loaded, these are the three files you have to edit. Note that s
 + MESC_F405RG/Core/Inc/MESC_F405.h
 
 ## Editing MESC_MOTOR_DEFAULTS.h: 
-These are variables that much be created for your motor, these are the variables I'm going to use for a TP128:
+These are variables that need to be created for your motor, these are the variables I'm going to use for a TP128:
 ```
 #elif defined(TP128)
 #define MAX_MOTOR_PHASE_CURRENT 350.0f //350A seems like a reasonable upper limit for these
@@ -39,8 +39,10 @@ These are variables that much be created for your motor, these are the variables
 #define DEFAULT_MOTOR_PP 5
 ```
 
+A document to find motor parameters can be found [here](https://github.com/badgineer/MP2-ESC/blob/main/docs/MOTOR_PARAM.md). A video showing parameter generation is [here](https://www.youtube.com/watch?v=9YggapDcg0M). 
+
 ## MESC_F405RG/Core/Inc/MESC_F405.h
-Open MESC_F405.h and look at this code block
+Open MESC_F405.h and look at this code block:
 ```
 #include "MP2_V0_1.h"
 //#include "CL700_V0_3.h"
@@ -61,12 +63,10 @@ Remember we made a configuration for your motor? Make sure the name of that sect
 
 In this case we'll use: 
 ```
-#define TP128 // has to be consistent with MESC_MOTOR_DEFAULTS.h
-```
-These values are similar to motor defaults but are meant to be specific to the board you are using -- which is capable of running more than one motor. 
+#define TP128 
 ```
 
-Next move on to this in the same file:
+Next move to this code block in the same file:
 ```
 #define ABS_MAX_PHASE_CURRENT 400.0f 
 #define ABS_MAX_BUS_VOLTAGE 80.0f
