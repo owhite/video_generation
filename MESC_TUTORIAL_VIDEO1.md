@@ -85,7 +85,8 @@ Notes:
 - ABS_MAX_BUS_VOLTAGE: if exceeded by VBat, MP2 throws an error 
 - ABS_MIN_BUS_VOLTAGE: if VBat drops below, MP2 throws an error 
 - MAX_IQ_REQUEST 200.0f: set to half of ABS_MAX_PHASE_CURRENT
-- R_VBUS_BOTTOM and TOP refer to the voltage divider that measures VBat, the values shown are because resistors on the board are 150k, and 3.3k. 
+- R_VBUS_BOTTOM and TOP refer to the voltage divider that measures VBat
+  - the values shown are because resistors on the board are 150k, and 3.3k. 
 - Obviously there are many other values in these files -- **you do not need to change any of them**
 
 Now try poking the hammer icon which will launch a compile. Alternatively in the Project Explorer you can right mouse click on the MESC_F405RG folder and go to "Build project". 
@@ -117,7 +118,7 @@ MESC_Common/Inc/MESC_MOTOR_DEFAULTS.h
 #define ERROR_OVERCURRENT_PHB 2
 #define ERROR_OVERCURRENT_PHC 3
 #define ERROR_OVERVOLTAGE 4
-#define ERROR_UNDERVOLTAGE 5 // the fifth error in list aka 10000
+#define ERROR_UNDERVOLTAGE 5 // 16 = 10000 in binary -- the one means fifth error in list
 #define ERROR_BRK 6
 #define ERROR_OVERTEMPU 7
 #define ERROR_OVERTEMPV 8
