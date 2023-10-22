@@ -108,8 +108,8 @@ Notice that you can then expand these values to look at their associated data st
 + mtr[0].m.Vmax
 
 ## Using the MESC terminal
-These are some links to find your com port
 
+You'll need to connect your VT100 terminal to the port. Here are some links to find your com port:
 + https://www.carminenoviello.com/2015/03/02/how-to-use-stm32-nucleo-serial-port/
 + https://shawnhymel.com/1795/getting-started-with-stm32-nucleo-usb-virtual-com-port/
 + https://www.youtube.com/watch?v=92A98iEFmaA
