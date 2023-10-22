@@ -87,7 +87,7 @@ Notes:
 - R_VBUS_BOTTOM and TOP refer to the voltage divider that measures VBat, the values shown are because resistors on the board are 150k, and 3.3k. 
 - Obviously there are many other values in these files -- **you do not need to change any of them**
 
-Now try poking the hammer icon which will launch a compile.
+Now try poking the hammer icon which will launch a compile. Alternatively in the Project Explorer you can right mouse click on the MESC_F405RG folder and go to "Build project". 
 
 Once your compile works try connecting the STLINK V2 as showning in the video, and see if you can flash the firmware on to your pill. 
 
