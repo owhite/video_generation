@@ -80,12 +80,13 @@ Next move to this code block in the same file:
 
 ```
 ## Notes
--ABS_MAX_PHASE_CURRENT: The MP2 will not exceed this phase current
--ABS_MAX_BUS_VOLTAGE: if exceeded by VBat, MP2 throws an error 
--ABS_MIN_BUS_VOLTAGE: if VBat drops below, MP2 throws an error 
--MAX_IQ_REQUEST 200.0f: set to half of ABS_MAX_PHASE_CURRENT
--R_VBUS_BOTTOM and TOP refer to the voltage divider that measures VBat, the values shown are because resistors on the board are 150k, and 3.3k. 
--Obviously there are many other values in these files -- **you do not need to change any of them**
+
+- ABS_MAX_PHASE_CURRENT: The MP2 will not exceed this phase current
+- ABS_MAX_BUS_VOLTAGE: if exceeded by VBat, MP2 throws an error 
+- ABS_MIN_BUS_VOLTAGE: if VBat drops below, MP2 throws an error 
+- MAX_IQ_REQUEST 200.0f: set to half of ABS_MAX_PHASE_CURRENT
+- R_VBUS_BOTTOM and TOP refer to the voltage divider that measures VBat, the values shown are because resistors on the board are 150k, and 3.3k. 
+- Obviously there are many other values in these files -- **you do not need to change any of them**
 
 Now try poking the hammer icon which will launch a compile.
 
