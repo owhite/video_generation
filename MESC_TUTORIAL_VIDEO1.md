@@ -1,5 +1,5 @@
 # MESC Firmware and documentation
-## see this vidieo: https://www.youtube.com/watch?v=nHqouHzY8-Y
+## see this [MESC tutorial to flash firmware on to the MP2-ESC](https://www.youtube.com/watch?v=nHqouHzY8-Y)
 
 Downloading MESC:
 + The latest build is https://github.com/davidmolony/MESC_Firmware
