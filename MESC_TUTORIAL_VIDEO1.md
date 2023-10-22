@@ -86,7 +86,7 @@ Notes:
 - ABS_MIN_BUS_VOLTAGE: if VBat drops below, MP2 throws an error 
 - MAX_IQ_REQUEST 200.0f: set to half of ABS_MAX_PHASE_CURRENT
 - R_VBUS_BOTTOM and TOP refer to the voltage divider that measures VBat
-  - the values shown are because resistors on the board are 150k, and 3.3k. 
+  - the values shown are 150k, and 3.3k for resistors on the board
 - Obviously there are many other values in these files -- **you do not need to change any of them**
 
 Now try poking the hammer icon which will launch a compile. Alternatively in the Project Explorer you can right mouse click on the MESC_F405RG folder and go to "Build project". 
