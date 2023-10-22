@@ -98,8 +98,35 @@ These are variables to load up in the live expression viewer of STM32CubeIDE:
 + mtr[0]
 
 Notice that you can then expand these values to look at their associated data structures. These are the values we talked about in the tutorial:
-+ mtr[0].m.Vmax
-+ mtr[0].m.Vmax
++ mtr[0].MotorState
++ mtr[0].Raw.ADC_in_ext1
++ mtr[0].Conv.VBus
+
+## Interpretting MESC_error values, example
+when we turned down the power supply mtr[0].Conv.VBus changed, and when it went below ABS_MIN_BUS_VOLTAGE, the debugger reported MESC_errors = 16
+
+To figure out what that means, convert MESC_error to binary, which is 10000
+
+The look at:
+MESC_Common/Inc/MESC_MOTOR_DEFAULTS.h
+
+10000 corresponds to the fifth error in this list: 
+
+```
+#define ERROR_OVERCURRENT_PHA 1
+#define ERROR_OVERCURRENT_PHB 2
+#define ERROR_OVERCURRENT_PHC 3
+#define ERROR_OVERVOLTAGE 4
+#define ERROR_UNDERVOLTAGE 5 // the fifth error in list aka 10000
+#define ERROR_BRK 6
+#define ERROR_OVERTEMPU 7
+#define ERROR_OVERTEMPV 8
+#define ERROR_OVERTEMPW 9
+#define ERROR_OVERTEMP_MOTOR 10
+#define ERROR_HARDFAULT 11
+#define ERROR_BUSFAULT 12
+#define ERROR_NMI 13
+```
 
 ## Using the MESC terminal
 
