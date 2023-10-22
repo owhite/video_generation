@@ -93,13 +93,7 @@ Now try poking the hammer icon which will launch a compile. Alternatively in the
 Once your compile works try connecting the STLINK V2 as showning in the video, and see if you can flash the firmware on to your pill. 
 
 ## Using the STM32CubeIDE debugger
-Useful values to track:
-MESC_error
-mtr[0]
-
-mtr[0] can be expanded and a large set of variables are visible. 
-
-Variables to load up in the live expression viewer of STM32CubeIDE:
+These are variables to load up in the live expression viewer of STM32CubeIDE:
 + MESC_error
 + mtr[0]
 
