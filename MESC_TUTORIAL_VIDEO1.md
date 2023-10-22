@@ -117,6 +117,14 @@ These are some links to find your com port
 
 My favorite command line method to use the terminal. This doesnt work for windows:
 ```
+// find your available port with:
+$ ls /dev/* | grep cu
+/dev/cu.BLTH
+/dev/cu.Bluetooth-Incoming-Port
+/dev/cu.usbmodem3555356532321
+
+// use this screen command with the port name:
+$ screen /dev/cu.usbmodem3555356532321 9600
 ```
 
 ## MESC terminal commands used during the tutorial
@@ -141,11 +149,11 @@ Or use get to see a specific value:
 get motor_sensor
 ```
 
-This is useful to stream values to the terminal
+This is useful to stream values to the terminal:
 ```
 status json
 ```
-To stop streaming 
+To stop streaming:
 ```
 status stop
 ```
