@@ -1,32 +1,72 @@
 # MESC Firmware and documentation
-## see this vidieo: https://youtu.be/oS0gFUgAbKI?si=wD3mVZEL_7NAHPBq
+## see this vidieo: https://www.youtube.com/watch?v=nHqouHzY8-Y
 
-MESC_Common/Inc/MESC_MOTOR_DEFAULTS.h
-Must set the following parameters that are specific to your motor
-
+Downloading MESC:
++ The latest build is https://github.com/davidmolony/MESC_Firmware
++ The branch for this video is BLAH_BLAH_BLAH
++ There are lots of git tools for pulling branches
++ Or you can do it on the command line with:
 ```
-#if defined(YOUR_MOTOR_NAME)            //Create a new block name
-#define MAX_MOTOR_PHASE_CURRENT 200.0f  // Amps, that's specific to this motor
-#define DEFAULT_MOTOR_POWER 250.0f      // Watts, same
-#define DEFAULT_FLUX_LINKAGE 0.0068f    // wB
-#define DEFAULT_MOTOR_Ld 0.000020f      // Henries
-#define DEFAULT_MOTOR_Lq 0.0000250f     // Henries
-#define DEFAULT_MOTOR_R 0.011f          // Ohms
-#define DEFAULT_MOTOR_PP 14             // Pole Pairs
+$ git clone --branch BLAH_BLAH_BLAH https://github.com/davidmolony/MESC_Firmware.git
 ```
 
-Now, be sure to include this into: 
-MESC_Firmware/MESC_F405RG/Core/Inc/MESC_F405.h
+Advice for loading MESC into STM32CubeIDE:
++ This is the worst part of using STM32Cube
++ The easiest way is create a whole new workspace
++ Open STM32CubeIDE, when it asks if you want to open a workspace, hit browse
++ Create a new workspace folder, hit open
++ When the IDE starts, use the menu
++ Window->Show view->Project explorer
++ Hopefully that shows window that says "Import projects"
++ Then find "Existing Projects into Workspace"
++ Link that to the top level folder for MESC project you downloaded
+
+If all this gets loaded, these are the three files you have to edit. Note that sometimes these are in a slightly different directory structure in STM32CubeIDE. The files:
++ MESC_Common/Inc/MESC_MOTOR_DEFAULTS.h
++ MESC_F405RG/Core/Inc/MP2_V0_1.h
++ MESC_F405RG/Core/Inc/MESC_F405.h
+
+## Editing MESC_MOTOR_DEFAULTS.h: 
+These are variables that much be created for your motor, these are the variables I'm going to use for a TP128:
+```
+#elif defined(TP128)
+#define MAX_MOTOR_PHASE_CURRENT 350.0f //350A seems like a reasonable upper limit for these
+#define DEFAULT_MOTOR_POWER 12000.0f   //Go on, change this to 15000
+#define DEFAULT_FLUX_LINKAGE 0.0167f   //Set this to the motor linkage in wB
+#define DEFAULT_MOTOR_Ld 0.000032f     //Henries
+#define DEFAULT_MOTOR_Lq 0.000046f     //Henries
+#define DEFAULT_MOTOR_R 0.0080f        //Ohms
+#define DEFAULT_MOTOR_PP 5
+```
+
+## MESC_F405RG/Core/Inc/MESC_F405.h
+Open MESC_F405.h and look at this code block
 ```
 #include "MP2_V0_1.h"
+//#include "CL700_V0_3.h"
+//#include "INDI-600.h"
+//#include "MX_FOC_IMS.h"
+//#include "MX_FOC_GaN.h"
+//#include "GIGAVESC.h"
 ```
-also be sure to comment out all the other potential header files! 
+Notice that MP2_V0_1.h is uncommented, and out all the other potential header files are comment out. 
 
-MESC_Firmware/MESC_F405RG/Core/Inc/MP2_V0_1.h
+## MESC_F405RG/Core/Inc/MP2_V0_1.h
+
+Remember we made a configuration for your motor? Make sure the name of that section is in this define
+
 ```
 #define YOUR_MOTOR_NAME // has to be consistent with MESC_MOTOR_DEFAULTS.h
 ```
+
+In this case we'll use: 
+```
+#define TP128 // has to be consistent with MESC_MOTOR_DEFAULTS.h
+```
 These values are similar to motor defaults but are meant to be specific to the board you are using -- which is capable of running more than one motor. 
+```
+
+Next move on to this in the same file:
 ```
 #define ABS_MAX_PHASE_CURRENT 400.0f 
 #define ABS_MAX_BUS_VOLTAGE 80.0f
@@ -46,6 +86,10 @@ These values are similar to motor defaults but are meant to be specific to the b
 -MAX_IQ_REQUEST 200.0f: set to half of ABS_MAX_PHASE_CURRENT
 -R_VBUS_BOTTOM and TOP refer to the voltage divider that measures VBat, the values shown are because resistors on the board are 150k, and 3.3k. 
 -Obviously there are many other values in these files -- **you do not need to change any of them**
+
+Now try poking the hammer icon which will launch a compile.
+
+Once your compile works try connecting the STLINK V2 as showning in the video, and see if you can flash the firmware on to your pill. 
 
 ## Using the STM32CubeIDE debugger
 Useful values to track:
