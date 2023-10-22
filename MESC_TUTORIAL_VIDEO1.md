@@ -99,25 +99,29 @@ mtr[0]
 
 mtr[0] can be expanded and a large set of variables are visible. 
 
-## Variables discussed in the tutorial
-MESC_error
-mtr[0].m.Vmax
-vars.adc1_MAX	
+Variables to load up in the live expression viewer of STM32CubeIDE:
++ MESC_error
++ mtr[0]
+
+Notice that you can then expand these values to look at their associated data structures. These are the values we talked about in the tutorial:
++ mtr[0].m.Vmax
++ mtr[0].m.Vmax
 
 ## Using the MESC terminal
-
-Find a com port, setting up a terminal on STM32 architectures
+These are some links to find your com port
 
 + https://www.carminenoviello.com/2015/03/02/how-to-use-stm32-nucleo-serial-port/
 + https://shawnhymel.com/1795/getting-started-with-stm32-nucleo-usb-virtual-com-port/
 + https://www.youtube.com/watch?v=92A98iEFmaA
 + https://www.youtube.com/watch?v=dEQwSl8mCFs
 
-## Commands used during the tutorial
+My favorite command line method to use the terminal. This doesnt work for windows:
+```
+```
 
-You'll need to go through the tutorial to see how these are used, but here's a summary of MESC terminal commands:
+## MESC terminal commands used during the tutorial
 
-Remove all previously saved values:
+You'll need to go through the tutorial to see how these are used, but here's a summary of MESC terminal commands. For example, remove all previously saved values:
 ```
 save -d 
 ```
@@ -146,8 +150,14 @@ To stop streaming
 status stop
 ```
 
-To change between sensorless and openloop
+To change between sensorless and openloop:
 ```
 set motor_sensor 0
 set motor_sensor 2
 ```
+
+When ever you make changes that you like, type:
+```
+save
+```
+
