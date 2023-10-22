@@ -108,10 +108,10 @@ vars.adc1_MAX
 
 Find a com port, setting up a terminal on STM32 architectures
 
-https://www.carminenoviello.com/2015/03/02/how-to-use-stm32-nucleo-serial-port/
-https://shawnhymel.com/1795/getting-started-with-stm32-nucleo-usb-virtual-com-port/
-https://www.youtube.com/watch?v=92A98iEFmaA
-https://www.youtube.com/watch?v=dEQwSl8mCFs
++ https://www.carminenoviello.com/2015/03/02/how-to-use-stm32-nucleo-serial-port/
++ https://shawnhymel.com/1795/getting-started-with-stm32-nucleo-usb-virtual-com-port/
++ https://www.youtube.com/watch?v=92A98iEFmaA
++ https://www.youtube.com/watch?v=dEQwSl8mCFs
 
 Commands used during the tutorial
 Removed all previously saved values
