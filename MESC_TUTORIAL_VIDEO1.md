@@ -55,14 +55,15 @@ Notice that MP2_V0_1.h is uncommented, and out all the other potential header fi
 
 ## MESC_F405RG/Core/Inc/MP2_V0_1.h
 
-Remember we made a configuration for your motor? Make sure the name of that section is in this define
-
+Remember we made a configuration for your motor? One of the first defines in this file requires you to describe your block in MESC_MOTOR_DEFAULTS.h:
 ```
+//Pick a motor for default
 #define YOUR_MOTOR_NAME // has to be consistent with MESC_MOTOR_DEFAULTS.h
 ```
 
 In this case we'll use: 
 ```
+//Pick a motor for default
 #define TP128 
 ```
 
