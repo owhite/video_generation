@@ -79,8 +79,7 @@ Next move to this code block in the same file:
 #define R_VBUS_TOP 150000.0f
 
 ```
-## Notes
-
+Notes:
 - ABS_MAX_PHASE_CURRENT: The MP2 will not exceed this phase current
 - ABS_MAX_BUS_VOLTAGE: if exceeded by VBat, MP2 throws an error 
 - ABS_MIN_BUS_VOLTAGE: if VBat drops below, MP2 throws an error 
