@@ -6,7 +6,7 @@ from pytube import YouTube
 try:
     opts, args = getopt.getopt(sys.argv[1:],"u:o:",["URL=", "output="])
 except getopt.GetoptError:
-    print ('program.py -u youtubeURL -o <outputfile>')
+    print ('program.py -u <youtubeURL> -o <outputfile>')
     sys.exit(2)
 
 cname = ""

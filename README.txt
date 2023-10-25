@@ -143,6 +143,15 @@ $ ffmpeg -i VIDEO2_debug_sesh3.mov -vcodec h264 -c:a aac output3.mp4
 
 $ ./combine.py VIDEO2_final.mp4 output0.mp4 output1.mp4 output2.mp4 output3.mp4
 
+Oh shit I need to add a comment to the youtube video:
+
+% ./download_movie.py --URL "https://www.youtube.com/watch?v=OsqP2L_DqyM" --output raw.mp4
+
+ % ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0 raw.mp4
+1252x720
+
+ffmpeg -i raw.mp4 -vf "drawtext=fontfile=/path/to/font.ttf:text='Actually later in the video ADC1MIN was set to 400':fontcolor=yellow:fontsize=36:box=1:boxcolor=black@0.5:boxborderw=5:x=(w-text_w)/2:y=(h-text_h)/2:enable='between(t,255,260)'" -codec:a copy raw2.mp4
+
 ============================================================
                      BASEMENT MATERIALS
 ============================================================
@@ -180,3 +189,4 @@ convert -background black -fill yellow -pointsize 28 -gravity west label:"This i
 Suppose you want to change the position of the overlaid image:
 
 ffmpeg -i scrap1.mp4 -i thing.png -filter_complex "[0:v][1:v] overlay=100:100 : enable='between(t,0,4)'" -c:a copy scrap2.mp4
+
