@@ -17,18 +17,17 @@ Convert quicktime .mov to mp4
 
 How big is it? 
 % ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0 insert_section.mp4
-938x590
+1510x868
 
 how long is it?
 $ ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 insert_section.mp4
-19.889000
+19.36
 
 change the size
 % ffmpeg -i insert_section.mp4 -vf "scale=1398x814" output2.mp4
 
 gonna change the codec etc of the movie:
 ffmpeg -i output2.mp4 -ss "00:00:00.000" -to "00:00:19.800" -codec:v libx264 -crf 23 -pix_fmt yuv420p -codec:a aac -f mp4 -movflags faststart tmp2.mp4
-
 
 how long is the original video?
 % ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 output1.mp4
@@ -59,8 +58,6 @@ drawtext=fontfile=/path/to/font.ttf:text='Those files are used for other control
 -codec:a copy output2.mp4
 
 Then bunch those together and run this command
-
-7:38
 
 $ ffmpeg -i output1.mp4 -vf "drawtext=fontfile=/path/to/font.ttf:text='See links in youtube description':fontcolor=yellow:fontsize=36:box=1:boxcolor=black@0.5:boxborderw=5:x=(w-text_w)/2:y=(h-text_h)/2:enable='between(t,57,60)', drawtext=fontfile=/path/to/font.ttf:text='Look at \"Determine your motor parameters\" in the youtube description':fontcolor=yellow:fontsize=36:box=1:boxcolor=black@0.5:boxborderw=5:x=(w-text_w)/2:y=((h-text_h)/2) + 30:enable='between(t,302,306)', drawtext=fontfile=/path/to/font.ttf:text='Those files are used for other controllers':fontcolor=yellow:fontsize=36:box=1:boxcolor=black@0.5:boxborderw=5:x=(w-text_w)/2:y=((h-text_h)/2) + 30:enable='between(t,458,462)'" -codec:a copy output2.mp4
 
@@ -98,7 +95,7 @@ to center:
 (1398 / 2) - (590 / 2) = 404, but I'm also going to shift left a bit
 
 Overlay this list:
-% ffmpeg -i output3.mp4 -i thing2.png -filter_complex "[0:v][1:v] overlay=360:100 : enable='between(t,367,375)'" -c:a copy output4.mp4
+% ffmpeg -i output3.mp4 -i thing2.png -filter_complex "[0:v][1:v] overlay=360:100 : enable='between(t,360,365)'" -c:a copy output4.mp4
 
 Overlay circuit diagram:
 % ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0  PICS/circuit_diagram.png 
@@ -118,7 +115,7 @@ ST-LINK - USB - COMPUTER
 ST-LINK PILL
 993x544 = CENTER: 203
 
-% ffmpeg -i output6.mp4 -i PICS/STLINK_PILL.png -filter_complex "[0:v][1:v] overlay=203:100 : enable='between(t,507,511)'" -c:a copy output7.mp4
+% ffmpeg -i output6.mp4 -i PICS/STLINK_PILL.png -filter_complex "[0:v][1:v] overlay=203:100 : enable='between(t,504,511)'" -c:a copy output7.mp4
 
 ST-LINK PILL CAPTION
 993x544 = CENTER: 203
@@ -127,6 +124,7 @@ ST-LINK PILL CAPTION
 
 430 has a long pause. 
 
+============================================================
 VIDEO 2:
 
 $ cp ../Desktop/VIDEO2_preamble.mov .
