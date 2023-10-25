@@ -127,6 +127,22 @@ ST-LINK PILL CAPTION
 
 430 has a long pause. 
 
+VIDEO 2:
+
+$ cp ../Desktop/VIDEO2_preamble.mov .
+$ cp ../Desktop/VIDEO2_debug_sesh.mov .
+$ cp ../Desktop/VIDEO2_debug_sesh2.mov .
+$ cp ../Desktop/VIDEO2_debug_sesh3.mov .
+
+convert these to mp4s:
+
+$ ffmpeg -i VIDEO2_preamble.mov -vcodec h264 -c:a aac output0.mp4
+$ ffmpeg -i VIDEO2_debug_sesh.mov -vcodec h264 -c:a aac output1.mp4
+$ ffmpeg -i VIDEO2_debug_sesh2.mov -vcodec h264 -c:a aac output2.mp4
+$ ffmpeg -i VIDEO2_debug_sesh3.mov -vcodec h264 -c:a aac output3.mp4
+
+$ ./combine.py VIDEO2_final.mp4 output0.mp4 output1.mp4 output2.mp4 output3.mp4
+
 ============================================================
                      BASEMENT MATERIALS
 ============================================================

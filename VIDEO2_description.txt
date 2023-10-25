@@ -1,0 +1,24 @@
+Link to MESC
+https://github.com/davidmolony/MESC_Firmware
+
+Build an MP2
+https://github.com/badgineer/MP2-ESC
+
+Determine your motor parameters:
+https://github.com/badgineer/MP2-ESC/blob/main/docs/MOTOR_PARAM.md
+
+A video for finding motor parameters:
+https://www.youtube.com/watch?v=9YggapDcg0M&t=398s
+
+More information on MESC operation
+https://davidmolony.github.io/MESC_Firmware/
+
+Open source F405 pill
+https://github.com/davidmolony/F405_pill
+
+Additional information on using STM32CubeIDE
+https://davidmolony.github.io/MESC_Firmware/debugging/FIRMWARE_INTRO.html
+
+Github branch for this code is here:
+
+Cheat sheet is here: 
